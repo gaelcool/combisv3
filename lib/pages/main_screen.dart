@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'routes_page.dart';
 import 'profile_page.dart';
+import 'paradas_page.dart';
 
 /// Shell raíz — gestiona las 3 pestañas de la barra de navegación inferior.
 /// Usa IndexedStack para mantener las páginas activas al cambiar de pestaña.
@@ -10,6 +11,7 @@ import 'profile_page.dart';
 ///   0 — Inicio  (HomePage)      — tarjeta de mapa + cuadrícula de rutas
 ///   1 — Rutas   (RoutesPage)    — lista de rutas
 ///   2 — Perfil  (ProfilePage)   — placeholder (Fase 4)
+///   3 — Paradas (ParadasPage)   — placeholder (Fase 4)
 ///
 /// TODO: Herramientas de desarrollo → menú hamburguesa en AppBar, protegido con kDebugMode.
 class MainScreen extends StatefulWidget {
@@ -22,7 +24,12 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
-  final List<Widget> _pages = const [HomePage(), RoutesPage(), ProfilePage()];
+  final List<Widget> _pages = const [
+    HomePage(),
+    RoutesPage(),
+    ProfilePage(),
+    ParadasPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +53,11 @@ class _MainScreenState extends State<MainScreen> {
             icon: Icon(Icons.person_outline),
             activeIcon: Icon(Icons.person),
             label: 'Perfil',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.place_outlined),
+            activeIcon: Icon(Icons.place),
+            label: 'Paradas',
           ),
         ],
       ),

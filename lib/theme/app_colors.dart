@@ -26,38 +26,25 @@ class AppColors {
 
   static const Color amberGlow = Color(0xFFFF9E00);
 
-  // ── Fondos (del extremo violeta oscuro de la paleta) ──────────────────────
-  /// #240046 — (scaffold)
-  static const Color darkAmethyst = Color(0xFF240046);
+  static const Color darkAmethyst = Color.fromARGB(255, 108, 91, 126);
 
-  /// #3C096C — (tarjetas, app bar, barra de navegación)
   static const Color indigoInk = Color(0xFF3C096C);
 
-  /// #5A189A — (diálogos, hojas)
   static const Color indigoVelvet = Color(0xFF5A189A);
 
-  // ── Acento ────────────────────────────────────────────────────────────────
-  /// #9D4EDD — púrpura lavanda, acento secundario (enlaces, toggles)
   static const Color lavenderPurple = Color(0xFF9D4EDD);
 
-  // ── Texto ─────────────────────────────────────────────────────────────────
-  /// Texto principal sobre fondos oscuros
   static const Color textPrimary = Color(0xFFF5F5F5);
 
-  /// Texto secundario / atenuado
   static const Color textSecondary = Color(0xFFBBBBBB);
 
-  /// Texto deshabilitado
   static const Color textDisabled = Color(0xFF666666);
 
-  // ── Semántico ─────────────────────────────────────────────────────────────
   static const Color error = Color(0xFFFF5252);
   static const Color success = Color(0xFF69F0AE);
   static const Color warning = amberGlow;
 
-  static const Color border = Color(
-    0x33FF8500,
-  );
+  static const Color border = Color(0x33FF8500);
 
   // ── Alias de conveniencia (para legibilidad de AppTheme) ──────────────────
   static const Color primary = pumpkinSpice;

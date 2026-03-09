@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
-import '../data/route_data.dart';
+import '../data and db/route_data.dart';
 import '../theme/app_colors.dart';
 
 /// Widget de mapa reutilizable con soporte para capas de ruta.

@@ -67,12 +67,16 @@ class AppTheme {
         backgroundColor: AppColors.surface,
         elevation: 0,
         centerTitle: false,
+
         iconTheme: const IconThemeData(color: AppColors.textPrimary),
         titleTextStyle: GoogleFonts.inter(
           color: AppColors.primaryLight, // princetonOrange en app bar
           fontSize: 20,
           fontWeight: FontWeight.w700,
           letterSpacing: 1.0,
+        ),
+        shape: const Border(
+          bottom: BorderSide(color: AppColors.primary, width: 2),
         ),
       ),
 
@@ -96,8 +100,8 @@ class AppTheme {
         color: AppColors.surfaceElevated, // indigoVelvet #5A189A
         elevation: 4,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: const BorderSide(color: AppColors.border, width: 1),
+          borderRadius: BorderRadius.circular(6),
+          side: const BorderSide(color: AppColors.border, width: 2),
         ),
         margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
       ),

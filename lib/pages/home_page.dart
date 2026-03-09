@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../widgets/map_widget.dart';
-import '../data/route_data.dart';
+import '../data and db/route_data.dart';
 
 /// Página principal — "Rutas Disponibles"
 /// Diseño (coincide con el mockup revisado):
@@ -26,15 +26,11 @@ class _HomePageState extends State<HomePage> {
   int? _selectedRouteIndex;
 
   // ── Rutas de la cuadrícula (datos estáticos) ──────────────────────────
-  // Los colores rotan entre los 3 naranjas + lavanda para coincidir con el mockup.
+  // Los colores rotan entre los 3 naranjas + lavanda para coincidir con el mockup. Para iniciar tendremos 3
   static const List<_GridRoute> _gridRoutes = [
     _GridRoute('Ruta Centro', AppColors.pumpkinSpice, 0),
     _GridRoute('Ruta Norte', AppColors.princetonOrange, 1),
     _GridRoute('Ruta Sur', AppColors.amberGlow, 2),
-    _GridRoute('Ruta Oriente', AppColors.lavenderPurple, null),
-    _GridRoute('Ruta Poniente', AppColors.pumpkinSpice, null),
-    _GridRoute('Ruta Universitaria', AppColors.princetonOrange, null),
-    _GridRoute('Ruta Aeropuerto', AppColors.amberGlow, null),
     _GridRoute('Ruta Industrial', AppColors.lavenderPurple, null),
   ];
 
@@ -64,7 +60,6 @@ class _HomePageState extends State<HomePage> {
           children: [
             const SizedBox(height: 16),
 
-            // ── Tarjeta del mapa (reemplaza el antiguo banner) ─────────
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),

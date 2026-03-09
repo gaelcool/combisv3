@@ -44,14 +44,10 @@ String formatDistance(double km) {
   return '${km.toStringAsFixed(1)} km';
 }
 
-// ============ VALIDACIÓN ============
-
 /// Verificar si un string no está vacío
 bool isNotEmpty(String? value) {
   return value != null && value.trim().isNotEmpty;
 }
-
-// ============ CONSTANTES DE BASE DE DATOS ============
 
 const String databaseName = 'combisapp.db';
 const int databaseVersion = 1;
