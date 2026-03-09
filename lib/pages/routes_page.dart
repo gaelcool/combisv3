@@ -3,79 +3,144 @@ import '../theme/app_theme.dart';
 
 /// Datos de una ruta individual — clase simple, sin dependencia de BD.
 /// TODO: Fase 3b — reemplazar con el modelo AppRoute de models/route.dart
-class _RouteItem {
-  final String number;
-  final String name;
-  final String estimatedTime;
+class _ItemRuta {
+  final String numero;
+  final String nombre;
+  final String tiempoEstimado;
   final Color color;
+  final List<String> paradas;
 
-  const _RouteItem({
-    required this.number,
-    required this.name,
-    required this.estimatedTime,
+  const _ItemRuta({
+    required this.numero,
+    required this.nombre,
+    required this.tiempoEstimado,
     required this.color,
+    required this.paradas,
   });
 }
 
 /// Rutas de ejemplo estáticas para Chiautempan, Tlaxcala.
 /// TODO: Fase 3b — cargar desde DatabaseHelper.instance.getAllRoutes()
-const List<_RouteItem> _sampleRoutes = [
-  _RouteItem(
-    number: 'A',
-    name: 'Centro → Volcanes',
-    estimatedTime: '12 min',
+const List<_ItemRuta> _rutasEjemplo = [
+  _ItemRuta(
+    numero: 'A',
+    nombre: 'Centro → Volcanes',
+    tiempoEstimado: '12 min',
     color: AppColors.pumpkinSpice,
+    paradas: ['Zócalo', 'Av. Hidalgo', 'Volcanes'],
   ),
-  _RouteItem(
-    number: 'B',
-    name: 'Escalinatas → Mercado',
-    estimatedTime: '10 min',
+  _ItemRuta(
+    numero: 'B',
+    nombre: 'Escalinatas → Mercado',
+    tiempoEstimado: '10 min',
     color: AppColors.princetonOrange,
+    paradas: ['Escalinatas', 'Plaza Central', 'Mercado'],
   ),
-  _RouteItem(
-    number: 'C',
-    name: 'Zócalo → Bienestar',
-    estimatedTime: '8 min',
+  _ItemRuta(
+    numero: 'C',
+    nombre: 'Zócalo → Bienestar',
+    tiempoEstimado: '8 min',
     color: AppColors.amberGlow,
+    paradas: ['Zócalo', 'Calle Juárez', 'Bienestar'],
   ),
-  _RouteItem(
-    number: 'D',
-    name: 'Soriana → Sta. Ana',
-    estimatedTime: '6 min',
+  _ItemRuta(
+    numero: 'D',
+    nombre: 'Soriana → Sta. Ana',
+    tiempoEstimado: '6 min',
     color: AppColors.lavenderPurple,
+    paradas: ['Soriana', 'Mercado', 'Sta. Ana'],
   ),
-  _RouteItem(
-    number: 'E',
-    name: 'Ocotlán → Hospital',
-    estimatedTime: '7 min',
+  _ItemRuta(
+    numero: 'E',
+    nombre: 'Ocotlán → Hospital',
+    tiempoEstimado: '7 min',
     color: AppColors.pumpkinSpice,
+    paradas: ['Ocotlán', 'Centro', 'Hospital'],
   ),
 ];
 
 /// Muestra la lista de rutas de combis disponibles.
 /// Sin base de datos — solo datos de ejemplo hasta la Fase 3b.
-class RoutesPage extends StatelessWidget {
+/// Por ahora tendra una busqueda simple de rutas por nombre.
+class RoutesPage extends StatefulWidget {
   const RoutesPage({super.key});
+
+  @override
+  State<RoutesPage> createState() => _RoutesPageState();
+}
+
+class _RoutesPageState extends State<RoutesPage> {
+  final TextEditingController _controladorBusqueda = TextEditingController();
+  List<_ItemRuta> _rutasFiltradas = List.from(_rutasEjemplo);
+
+  void _filtrarRutas(String consulta) {
+    setState(() {
+      if (consulta.isEmpty) {
+        _rutasFiltradas = List.from(_rutasEjemplo);
+      } else {
+        _rutasFiltradas = _rutasEjemplo.where((ruta) {
+          final nombreEnMinusculas = ruta.nombre.toLowerCase();
+          final consultaEnMinusculas = consulta.toLowerCase();
+          final coincideNombre = nombreEnMinusculas.contains(
+            consultaEnMinusculas,
+          );
+
+          final coincideParada = ruta.paradas.any(
+            (parada) => parada.toLowerCase().contains(consultaEnMinusculas),
+          );
+
+          return coincideNombre || coincideParada;
+        }).toList();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controladorBusqueda.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Rutas')),
-      body: ListView.builder(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        itemCount: _sampleRoutes.length,
-        itemBuilder: (context, index) {
-          return _RouteCard(route: _sampleRoutes[index]);
-        },
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: _controladorBusqueda,
+              onChanged: _filtrarRutas,
+              decoration: InputDecoration(
+                hintText: 'Buscar por ruta o parada...',
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                contentPadding: const EdgeInsets.symmetric(vertical: 12),
+              ),
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.only(bottom: 12),
+              itemCount: _rutasFiltradas.length,
+              itemBuilder: (context, index) {
+                return _TarjetaRuta(ruta: _rutasFiltradas[index]);
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class _RouteCard extends StatelessWidget {
-  final _RouteItem route;
+class _TarjetaRuta extends StatelessWidget {
+  final _ItemRuta ruta;
 
-  const _RouteCard({required this.route});
+  const _TarjetaRuta({required this.ruta});
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +150,7 @@ class _RouteCard extends StatelessWidget {
         onTap: () {
           // TODO: Fase 3b — navegar al detalle de ruta / resaltar en el mapa
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Ruta ${route.number} — ${route.name}')),
+            SnackBar(content: Text('Ruta ${ruta.numero} — ${ruta.nombre}')),
           );
         },
         child: Padding(
@@ -97,12 +162,12 @@ class _RouteCard extends StatelessWidget {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: route.color,
+                  color: ruta.color,
                   shape: BoxShape.circle,
                 ),
                 child: Center(
                   child: Text(
-                    route.number,
+                    ruta.numero,
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
@@ -115,7 +180,7 @@ class _RouteCard extends StatelessWidget {
               // Nombre de la ruta
               Expanded(
                 child: Text(
-                  route.name,
+                  ruta.nombre,
                   style: const TextStyle(
                     color: AppColors.textPrimary,
                     fontWeight: FontWeight.w600,
@@ -144,7 +209,7 @@ class _RouteCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      route.estimatedTime,
+                      ruta.tiempoEstimado,
                       style: const TextStyle(
                         color: AppColors.amberGlow,
                         fontSize: 12,
