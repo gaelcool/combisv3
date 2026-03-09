@@ -1,18 +1,20 @@
 // lib/models/route.dart
+import 'package:combisv3/data%20and%20db/models/stop_point.dart';
+
 class AppRoute {
   final int id;
-  final String number;         // "3", "A5", "C2"
-  final String name;           // "Santa Ana - Centro"
-  final String color;          // "#FF6B35"
+  final String number; // "3", "A5", "C2"
+  final String name; // "Santa Ana - Centro"
+  final String color; // "#FF6B35"
   final String? description;
-  final String startPoint;     // "Santa Ana"
-  final String endPoint;       // "Centro / Zócalo"
-  final int estimatedTime;     // 60 (minutos)
-  final bool isActive;         // true/false
+  final String startPoint; // "Santa Ana"
+  final String endPoint; // "Centro / Zócalo"
+  final int estimatedTime; // 60 (minutos)
+  final bool isActive; // true/false
   final DateTime createdAt;
   final DateTime updatedAt;
   final List<StopPoint> stops; // Paradas asociadas
-  
+
   AppRoute({
     required this.id,
     required this.number,
@@ -42,7 +44,7 @@ class AppRoute {
       isActive: (map['is_active'] as int) == 1,
       createdAt: DateTime.parse(map['created_at'] as String),
       updatedAt: DateTime.parse(map['updated_at'] as String),
-      stops: [],  // Se cargan por separado
+      stops: [], // Se cargan por separado
     );
   }
 

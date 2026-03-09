@@ -1,4 +1,4 @@
--- El siguiente codigo es solo para entender sera el esquema de la base de datos
+-- El siguiente codigo es solo para entender como sera el esquema de la base de datos
 -- No es necesario ejecutarlo, de hecho no se recomienda ejectuarlo.
 
 Drop table if exists rutas;

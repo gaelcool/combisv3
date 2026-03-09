@@ -1,5 +1,10 @@
-/// Esta pagina por ahora solo funciona para saber lo que tendremos despues
-/// Focuses only on routes
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+import '../../utils/common.dart';
+import 'route.dart';
+
+/// Manejador de Base de Datos SQLite
+/// Centrado en la gestión de rutas y persistencia local.
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._instance();
   static Database? _database;
@@ -17,21 +22,46 @@ class DatabaseHelper {
 
     debugLog('Database path: $path', tag: 'DB');
 
-    return await openDatabase(path, version: 1, onCreate: _onCreate);
+    return await openDatabase(
+      path,
+      version: 1,
+      onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
+    );
   }
 
   Future<void> _onCreate(Database db, int version) async {
     try {
       debugLog('Creating database schema...', tag: 'DB');
+
+      // Tabla de rutas (basada en el modelo AppRoute)
       await db.execute('''
         CREATE TABLE routes (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           number TEXT NOT NULL UNIQUE,
           name TEXT NOT NULL,
-          color INTEGER NOT NULL,
-          waypoints TEXT NOT NULL,
-          estimatedTime TEXT,
-          createdAt TEXT NOT NULL
+          color TEXT NOT NULL,
+          description TEXT,
+          start_point TEXT NOT NULL,
+          end_point TEXT NOT NULL,
+          estimated_time INTEGER NOT NULL,
+          is_active INTEGER NOT NULL DEFAULT 1,
+          created_at TEXT NOT NULL,
+          updated_at TEXT NOT NULL
+        )
+      ''');
+
+      // Tabla de paradas (asociadas a rutas)
+      await db.execute('''
+        CREATE TABLE stops (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          route_id INTEGER NOT NULL,
+          name TEXT NOT NULL,
+          latitude REAL NOT NULL,
+          longitude REAL NOT NULL,
+          order_in_route INTEGER NOT NULL,
+          created_at TEXT NOT NULL,
+          FOREIGN KEY (route_id) REFERENCES routes (id) ON DELETE CASCADE
         )
       ''');
 
@@ -47,11 +77,15 @@ class DatabaseHelper {
     }
   }
 
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    // Implementar si la versión de la BD cambia
+  }
+
   Future<List<AppRoute>> getAllRoutes() async {
     try {
       Database database = await db;
       final maps = await database.query('routes', orderBy: 'number ASC');
-      return maps.map((map) => _mapToRoute(map)).toList();
+      return maps.map((map) => AppRoute.fromMap(map)).toList();
     } catch (e) {
       errorLog('Failed to get all routes', error: e, tag: 'DB');
       return [];
@@ -66,35 +100,17 @@ class DatabaseHelper {
         where: 'id = ?',
         whereArgs: [id],
       );
-      return maps.isNotEmpty ? _mapToRoute(maps.first) : null;
+      return maps.isNotEmpty ? AppRoute.fromMap(maps.first) : null;
     } catch (e) {
       errorLog('Failed to get route by ID', error: e, tag: 'DB');
       return null;
     }
   }
 
-  Future<List<AppRoute>> getRoutesByNumber(List<String> numbers) async {
-    try {
-      if (numbers.isEmpty) return [];
-      Database database = await db;
-      final placeholders = numbers.map((_) => '?').join(',');
-      final maps = await database.query(
-        'routes',
-        where: 'number IN ($placeholders)',
-        whereArgs: numbers,
-      );
-      return maps.map((map) => _mapToRoute(map)).toList();
-    } catch (e) {
-      errorLog('Failed to get routes by number', error: e, tag: 'DB');
-      return [];
-    }
-  }
-
   Future<int> insertRoute(AppRoute route) async {
     try {
       Database database = await db;
-      final map = _routeToMap(route);
-      return await database.insert('routes', map);
+      return await database.insert('routes', route.toMap());
     } catch (e) {
       errorLog('Failed to insert route', error: e, tag: 'DB');
       return -1;
@@ -104,10 +120,9 @@ class DatabaseHelper {
   Future<int> updateRoute(AppRoute route) async {
     try {
       Database database = await db;
-      final map = _routeToMap(route);
       return await database.update(
         'routes',
-        map,
+        route.toMap(),
         where: 'id = ?',
         whereArgs: [route.id],
       );
@@ -144,6 +159,7 @@ class DatabaseHelper {
     try {
       debugLog('Resetting database...', tag: 'DB');
       Database database = await db;
+      await database.execute('DROP TABLE IF EXISTS stops');
       await database.execute('DROP TABLE IF EXISTS routes');
       await _onCreate(database, 1);
       debugLog('✓ Database reset successfully', tag: 'DB');
@@ -164,40 +180,5 @@ class DatabaseHelper {
       _database = null;
       debugLog('Database closed', tag: 'DB');
     }
-  }
-
-  AppRoute _mapToRoute(Map<String, dynamic> map) {
-    final waypointsJson = jsonDecode(map['waypoints'] as String) as List;
-    return AppRoute(
-      id: map['id'] as int,
-      number: map['number'] as String,
-      name: map['name'] as String,
-      color: Color(map['color'] as int),
-      waypoints: waypointsJson.map((w) => _mapToPoint(w)).toList(),
-      estimatedTime: map['estimatedTime'] as String?,
-      createdAt: DateTime.parse(map['createdAt'] as String),
-    );
-  }
-
-  Point _mapToPoint(dynamic json) {
-    if (json is Map) {
-      return Point(
-        (json['x'] as num).toDouble(),
-        (json['y'] as num).toDouble(),
-      );
-    }
-    return Point(0, 0);
-  }
-
-  Map<String, dynamic> _routeToMap(AppRoute route) {
-    return {
-      'id': route.id,
-      'number': route.number,
-      'name': route.name,
-      'color': route.color.toARGB32(),
-      'waypoints': jsonEncode(route.waypoints.map((p) => p.toJson()).toList()),
-      'estimatedTime': route.estimatedTime,
-      'createdAt': route.createdAt.toIso8601String(),
-    };
   }
 }

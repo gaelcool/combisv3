@@ -1,4 +1,6 @@
 // lib/models/stop_point.dart
+import 'package:latlong2/latlong.dart';
+
 class StopPoint {
   final int id;
   final int routeId;

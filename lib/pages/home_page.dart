@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import '../theme/app_theme.dart';
 import '../widgets/map_widget.dart';
+import '../widgets/dev_drawer.dart';
 import '../data and db/route_data.dart';
 
 /// Página principal — "Rutas Disponibles"
@@ -37,20 +39,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // ── Cajón de desarrollo ───────────────────────────────────────────
+      drawer: kDebugMode ? const DevDrawer() : null,
+
       // ── AppBar ─────────────────────────────────────────────────────────
-      appBar: AppBar(
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () {
-            // TODO: abrir cajón / menú de desarrollo (protegido con kDebugMode)
-          },
-        ),
-        title: const Text('Rutas Disponibles'),
-        actions: [
-          IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}),
-        ],
-      ),
+      appBar: AppBar(centerTitle: true, title: const Text('Rutas Disponibles')),
 
       // ── Cuerpo ─────────────────────────────────────────────────────────
       body: Padding(

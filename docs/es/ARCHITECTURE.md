@@ -47,10 +47,10 @@ Fase 3 mueve el mapa de una pestaña dedicada a un widget incrustado en la pági
 - Se creó `data/route_data.dart` — datos de ruta temporales (⚠️ no para producción)
 - Se creó `pages/profile_page.dart` — placeholder para la pestaña Perfil
 - Se modificó `home_page.dart` — banner reemplazado por tarjeta cuadrada de mapa con selección de ruta
-- Se modificó `main_screen.dart` — nav cambiado a Inicio | Rutas | Perfil
+- Se modificó `main_screen.dart` — nav cambiado a Inicio | Rutas | Perfil | Paradas
 - Tocar un botón de ruta resalta la polilínea correspondiente y muestra marcadores de parada
 
-**Lo que existe ahora:** Nav de 3 pestañas (Inicio/Rutas/Perfil), `home_page.dart` con tarjeta de mapa + cuadrícula de rutas, `routes_page.dart` con tarjetas de ruta, `map_widget.dart` con tiles + capas de polilíneas/marcadores, `profile_page.dart` como placeholder, `route_data.dart` con datos temporales.
+**Lo que existe ahora:** Nav de 4 pestañas (Inicio/Rutas/Perfil/Paradas), `home_page.dart` con tarjeta de mapa + cuadrícula de rutas, `routes_page.dart` con tarjetas de ruta, `map_widget.dart` con tiles + capas de polilíneas/marcadores, `profile_page.dart` y `paradas_page.dart` como placeholders, `route_data.dart` con datos temporales.
 
 ---
 
@@ -159,6 +159,11 @@ Tocar una tarjeta actualmente muestra un `SnackBar`. En Fase 3b navegará a una 
 
 ### `lib/pages/profile_page.dart` — Pestaña 2: Perfil
 Página placeholder con un ícono de avatar circular, texto "Próximamente" y subtítulo "Preferencias y rutas guardadas". Se completará en Fase 4.
+
+---
+
+### `lib/pages/paradas_page.dart` — Pestaña 3: Paradas
+Muestra una lista de todos los puntos de interés y paradas importantes en la ciudad. Actualmente es un placeholder con "Próximamente", pero evolucionará hacia una página de búsqueda y filtrado para ubicaciones específicas y qué rutas pasan por ellas.
 
 ---
 

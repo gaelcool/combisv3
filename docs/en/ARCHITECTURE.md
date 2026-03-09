@@ -37,10 +37,10 @@ Phase 3 moved the map from a dedicated fullscreen tab to an embedded widget on t
 - Created `data/route_data.dart` — temporary route data (⚠️ not for production)
 - Created `pages/profile_page.dart` — placeholder for Perfil tab
 - Modified `home_page.dart` — hero banner replaced with square map card + route selection
-- Modified `main_screen.dart` — nav changed to Inicio | Rutas | Perfil
+- Modified `main_screen.dart` — nav changed to Inicio | Rutas | Perfil | Paradas
 - Tapping a route button highlights the corresponding polyline and shows stop markers
 
-**What exists now:** 3-tab nav shell (Inicio/Rutas/Perfil), `home_page.dart` with map card + route grid, `routes_page.dart` with route cards, `map_widget.dart` with tiles + polyline/marker overlays, `profile_page.dart` as placeholder, `route_data.dart` with temporary data.
+**What exists now:** 4-tab nav shell (Inicio/Rutas/Perfil/Paradas), `home_page.dart` with map card + route grid, `routes_page.dart` with route cards, `map_widget.dart` with tiles + polyline/marker overlays, `profile_page.dart` and `paradas_page.dart` as placeholders, `route_data.dart` with temporary data.
 
 ---
 
@@ -105,6 +105,11 @@ Tapping a card currently shows a `SnackBar`. In Phase 3b this navigates to a rou
 
 ### `lib/pages/profile_page.dart` — Tab 2: Perfil
 Placeholder page with a circular avatar icon, "Próximamente" text, and "Preferencias y rutas guardadas" subtitle. Will be completed in Phase 4.
+
+---
+
+### `lib/pages/paradas_page.dart` — Tab 3: Paradas
+Shows a list of all stops (points of interest) in the city. Currently a placeholder with "Próximamente" but will evolve into a search and filter page for specific locations and what routes pass through them.
 
 ---
 
