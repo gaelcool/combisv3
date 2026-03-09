@@ -37,7 +37,7 @@ CREATE TABLE paradas (
     nombre TEXT NOT NULL,
     longitude REAL NOT NULL,
     latitude REAL NOT NULL,   --- Coordenadas especificas para las paradas puede funcionar, pero ¿Y si cambia una ruta? Con este metodo tendriamos que redistribuir la base, super lentisimo a escala.
-    orden_en_rutas INTEGER NOT NULL, -- Podria ser una forma de construir el orden de las rutas en las rutas
+    orden_en_rutas INTEGER NOT NULL, -- Podria ser una forma de construir el orden de las rutas en pase a la secuencia de las paradas.
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     Foreign key (ruta_id) references rutas(id) ON DELETE UPDATE
 );
