@@ -43,12 +43,39 @@ Fase 3 mueve el mapa de una pestaña dedicada a un widget incrustado en la pági
 
 ---
 
+## La Gran Decisión: Arquitectura de Base de Datos
+
+**Pregunta original:** ¿SQLite local? ¿MySQL en servidor? ¿Híbrido?
+
+**Respuesta decidida: Híbrido (SQLite Local + Servidor Remoto)**
+
+**Por qué?**
+- **SQLite solo** = datos duplicados en 100 teléfonos, inconsistencia si cambias una ruta, reinstalación pierde datos
+- **Servidor solo** = requiere internet siempre, latencia, costo
+- **Híbrido** = mejor de ambos mundos
+
+**Arquitectura:**
+1. **Servidor** (PostgreSQL/MySQL) = fuente de verdad (rutas, paradas, usuarios, favoritos)
+2. **SQLite Local** = caché rápido, offline-first. Se descarga una sola vez
+3. **API REST** = sincronización + autenticación JWT
+
 ### Fase 3b — Reintegración de Capa de Datos (Próxima)
-La Fase 3b reconecta el backend SQLite a la UI. Los modelos (`AppRoute`, `Point`) y `DatabaseHelper` de la Fase 1 están preservados y listos — solo necesitan reimportarse y descomentar los bloques en `main.dart`.
+La Fase 3b podria reconecta el backend SQLite a la UI. _O_ podriamos tomar el camino dificil e integrar ambas bases en este paso...
+-Me gustaria mencionar que sigo super en duda de como vamos a taclear la base de datos,tengo mas claro algunas dudas pero, ¿Ustedes que opinan? Incluire el schema del db como lo veo ahora, tipo diagrama de entidad ;)
 
--Tambien me gustaria mencionar que sigo super en duda de como vamos a taclear la base de datos, ¿Cómo vamos a implementar lo que serán minimo una 20 rutas de forma limpia? ¿Y cuando una ruta cambia que hacemos? Aparte de taclear lo de dibujo encima del mapa, responsabilidad al zoom, diseño, etc. Me parece que para algo como esto un CRUD y base de datos en la nube (Solo accesible por nosotros) es lo mas limpio y escalable. ¿Ustedes que opinan?
+**6 tablas principales:**
+- `usuarios` — email, username, password_hash, is_admin, created_at, updated_at
+- `rutas` — number, name, color (hex), descripción, start/end_point, estimated_time, is_active
+- `paradas` — route_id (FK), name, latitude, longitude, order_in_route
+- `user_favorites` — user_id (FK), route_id (FK) [relación M:N]
+- `user_locations` — historico de dónde estuvieron los usuarios (analytics)
+- `combi_locations` — (futuro) GPS en vehículos
 
-**Lo que involucra la Fase 3b:**
+
+## Roadmap: Próximas Fases
+
+
+**Lo que involucraría la Fase 3b:**
 - Reactivar `sqflite` + `path` en `pubspec.yaml` o usar firebase/mysql.
 - Reactivar init de `sqflite_common_ffi` en `main.dart` ** Nota, esa dependencia puede que no sirva en windows
 - Mover datos de siembra a un `utils/seeder.dart` dedicado
@@ -56,13 +83,26 @@ La Fase 3b reconecta el backend SQLite a la UI. Los modelos (`AppRoute`, `Point`
 - Reemplazar `data/route_data.dart` con consultas a BD que construyan `RouteOverlay`
 - Herramientas de desarrollo regresan como menú hamburguesa en el AppBar, protegidas con `kDebugMode`
 
----
+### Fase 3c — Geolocalización + Spawn Point
+- Agregar `geolocator` (permisos en runtime)
+- Crear selector visual: usuario elige dónde está (Centro, Mercado, Hospital, Estación, etc.)
+- Mapa centra automáticamente en spawn point
+- Registra ubicación en `user_locations` (para analytics)
 
-### Fase 4 — Pulido para Producción
-- Preferencias de usuario y rutas guardadas
-- Página de perfil completa
-- Optimización de rendimiento
-- Preparación para compilación APK
+### Fase 4 — Servidor + Autenticación + Compilación APK
+- Backend (Django/Node.js) + PostgreSQL
+- API REST: `/routes`, `/users`, `/auth`
+- JWT tokens para autenticación
+- WebSocket para posiciones en vivo
+- Login screen
+- Optimizaciones de rendimiento
+- Sincronización offline-first (local ↔ remoto)
+- **Compilación APK lista para Google Play**
+
+### Fase 5 — Tiempo Real + Pulido para producción
+- GPS en combis (tabla `combi_locations`)
+- Google Play Store release
+
 
 ---
 
