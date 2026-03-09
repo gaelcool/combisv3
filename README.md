@@ -1,4 +1,4 @@
-# Combis App — Chiautempan, Tlaxcala 🚐
+# Combis App —  Tlaxcala 🚐
 
 > Una guía de transporte público moderna para las rutas de combis en un estado peque de México. Desarrollada con Flutter para dispositivos móviles.
 
