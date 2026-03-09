@@ -2,13 +2,23 @@
 
 Este documento deberia de forma concisa explicar lo qué hace cada archivo, de qué es responsable cada pestaña y alguna información sobre las fases de desarrollo. Espero que lo lean todo.
 
+> **Fase actual: Fase 3** — Mapa incrustado en página principal con capas de ruta estáticas. Sin base de datos activa.
+
 ---
 
 ## Contexto del Proyecto
 
-Combis App es una guía de tránsito móvil para rutas de combis en aunque todavia no hemos discutido el rango que tendra nuestra app, este demo incluye un prototipo para Chiautempan. El objetivo es mostrar a los usuarios las rutas disponibles, permitirles explorar el mapa y eventualmente mostrar posiciones de combis en vivo o casi en tiempo real. La app tiene como plataforma principal Android, usando Linux de escritorio durante el desarrollo para iteración más rápida (sin necesidad de emulador). La verdad correrla es lo mismo en windows, donde abres el projecto en visual, y con que tengas flutter en tu path podras hacer flutter pub get y flutter -d web-server para correrla localmente. 
+Combis App es una guía de tránsito móvil para rutas de combis en aunque todavia no hemos discutido el rango que tendra nuestra app, este demo incluye un prototipo para Chiautempan. El objetivo es mostrar a los usuarios las rutas disponibles, permitirles explorar el mapa y eventualmente mostrar posiciones de combis en vivo o casi en tiempo real. La app tiene como plataforma principal Android, usando Linux de escritorio durante el desarrollo para iteración más rápida (sin necesidad de emulador). La verdad correrla es lo mismo en windows, donde abres el projecto en visual, y con que tengas flutter en tu path podras hacer:
+
+```bash 
+flutter pub get 
+flutter -d web-server 
+```
+ para correrla localmente.
 
 *Obtener una apk compilada de la app es un goal de alta importancia*
+
+
 
 ---
 
@@ -28,7 +38,8 @@ El proyecto se reinició desde una app Flutter limpia para establecer una estruc
 
 ---
 
-### Fase 3 — Mapa en Página Principal + Capas de Ruta (Actual)
+## Fase 3 — Mapa en Página Principal + Capas de Ruta ← *estamos aquí*
+
 Fase 3 mueve el mapa de una pestaña dedicada a un widget incrustado en la página principal. Se crea un `MapWidget` reutilizable que soporta capas de polilíneas y marcadores de parada. (*Tip: investiga stateless vs stateful widgets, conceptos de dart*). Los datos de ruta son estáticos en un archivo temporal (`data/route_data.dart`).
 
 **Lo que cambió en la Fase 3:**
@@ -83,6 +94,8 @@ La Fase 3b podria reconecta el backend SQLite a la UI. _O_ podriamos tomar el ca
 - Reemplazar `data/route_data.dart` con consultas a BD que construyan `RouteOverlay`
 - Herramientas de desarrollo regresan como menú hamburguesa en el AppBar, protegidas con `kDebugMode`
 
+> Cada `TODO` relacionado con BD en el código está etiquetado `// TODO: Fase 3b` para localizarlos con una búsqueda global.
+
 ### Fase 3c — Geolocalización + Spawn Point
 - Agregar `geolocator` (permisos en runtime)
 - Crear selector visual: usuario elige dónde está (Centro, Mercado, Hospital, Estación, etc.)
@@ -106,7 +119,7 @@ La Fase 3b podria reconecta el backend SQLite a la UI. _O_ podriamos tomar el ca
 
 ---
 
-## Desglose Archivo por Archivo
+## Desglose Archivo por Archivo - No al tiro pero DEFINITIVAMENTE vale la pena una leida, te dara un mejor sentido de como renderiza y corre la app.
 
 ### `lib/main.dart`
 Punto de entrada de la app. Llama a `WidgetsFlutterBinding.ensureInitialized()`, luego ejecuta `CombisApp`. En Fase 3 no hay trabajo asíncrono aquí — sin inicialización de base de datos, sin siembra. El bloque de init de BD está comentado y claramente marcado. `CombisApp` es un `StatelessWidget` que construye un `MaterialApp` apuntando a `AppTheme.darkTheme` y `MainScreen` como su casa.
