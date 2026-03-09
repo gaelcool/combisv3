@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 /// ─── NOTA SOBRE FUENTES ────────────────────────────────────────────────────
 /// Las fuentes se cargan vía el paquete `google_fonts` (pub.dev/packages/google_fonts)
 /// que las descarga de fonts.googleapis.com en la primera ejecución y las cachea localmente.
+/// Las fuentes se cargan localmente desde la carpeta `lib/assets/fonts/`
+/// para permitir el desarrollo offline. Están registradas en `pubspec.yaml`.
 /// No se necesita empaquetado manual de assets. Agregar a pubspec.yaml:
 ///   dependencies:
 ///     google_fonts: ^6.2.1

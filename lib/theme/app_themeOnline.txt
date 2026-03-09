@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 
 // Re-exportar para que cualquier archivo que importe app_theme.dart obtenga AppColors gratis.
@@ -12,14 +12,15 @@ class AppTheme {
   static const String appTitle = 'combis app';
 
   static ThemeData get darkTheme {
-    // Texto base oscuro de Material.
-    // Ahora usa la fuente 'Inter' local configurada en pubspec.yaml.
-    final baseTextTheme = ThemeData.dark().textTheme;
+    // Tema de texto base usando Inter desde google_fonts.
+    // Se descarga de fonts.googleapis.com en la primera ejecución, se cachea después.
+    final baseTextTheme = GoogleFonts.interTextTheme(
+      ThemeData.dark().textTheme,
+    );
 
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
-      fontFamily: 'Inter',
 
       // ── Esquema de color ─────────────────────────────────────────────────
       colorScheme: const ColorScheme(
@@ -68,8 +69,7 @@ class AppTheme {
         centerTitle: false,
 
         iconTheme: const IconThemeData(color: AppColors.textPrimary),
-        titleTextStyle: const TextStyle(
-          fontFamily: 'Inter',
+        titleTextStyle: GoogleFonts.inter(
           color: AppColors.primaryLight, // princetonOrange en app bar
           fontSize: 20,
           fontWeight: FontWeight.w700,
@@ -116,8 +116,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-          textStyle: const TextStyle(
-            fontFamily: 'Inter',
+          textStyle: GoogleFonts.inter(
             fontWeight: FontWeight.w600,
             fontSize: 15,
           ),
@@ -128,10 +127,7 @@ class AppTheme {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.primaryLight,
-          textStyle: const TextStyle(
-            fontFamily: 'Inter',
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: GoogleFonts.inter(fontWeight: FontWeight.w600),
         ),
       ),
 
@@ -178,8 +174,7 @@ class AppTheme {
       // ── Snackbar ─────────────────────────────────────────────────────────
       snackBarTheme: SnackBarThemeData(
         backgroundColor: AppColors.indigoVelvet,
-        contentTextStyle: const TextStyle(
-          fontFamily: 'Inter',
+        contentTextStyle: GoogleFonts.inter(
           color: AppColors.textPrimary,
           fontSize: 14,
         ),

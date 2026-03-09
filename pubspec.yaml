@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:  
     sdk: flutter
-  google_fonts: ^6.2.1
+  # google_fonts: ^6.2.1
   flutter_map: ^6.1.0
   latlong2: ^0.9.1
   sqflite: ^2.4.1
@@ -23,3 +23,11 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: lib/assets/fonts/Inter_18pt-Regular.ttf
+          weight: 400
+        - asset: lib/assets/fonts/Inter_18pt-Bold.ttf
+          weight: 700
+  
