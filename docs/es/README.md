@@ -10,7 +10,9 @@
 - **flutter_map** — renderizado de tiles OpenStreetMap
 - **latlong2** — tipos de coordenadas para el mapa
 - **google_fonts** — tipografía Inter, descargada y cacheada en tiempo de ejecución
-- **sqflite** — persistencia SQLite *(deshabilitado, Fase 3b)*
+- **sqflite** — persistencia SQLite (Activo - Fase 3b)
+- **sqflite_common_ffi** — SQLite para escritorio (Linux/Windows)
+- **path** — manejo de rutas de archivos de BD
 
 ---
 
@@ -41,12 +43,14 @@ combisv3/
 │   ├── data/
 │   │   └── route_data.dart       # ⚠️ TEMP — capas de ruta estáticas
 │   ├── pages/
-│   │   ├── main_screen.dart      # Shell de nav inferior (3 pestañas)
-│   │   ├── home_page.dart        # Pestaña 0 — tarjeta de mapa + cuadrícula de rutas
-│   │   ├── routes_page.dart      # Pestaña 1 — lista de rutas
-│   │   └── profile_page.dart     # Pestaña 2 — placeholder
+│   │   ├── main_screen.dart      # Shell de nav inferior (4 pestañas)
+│   │   ├── home_page.dart        # Pestaña 0 — tarjeta de mapa + cuadrícula de rutas + Dev Drawer
+│   │   ├── routes_page.dart      # Pestaña 1 — lista de rutas + búsqueda
+│   │   ├── profile_page.dart     # Pestaña 2 — placeholder
+│   │   └── paradas_page.dart     # Pestaña 3 — placeholder
 │   ├── widgets/
-│   │   └── map_widget.dart       # Widget de mapa reutilizable con soporte de capas
+│   │   ├── map_widget.dart       # Widget de mapa reutilizable con soporte de capas
+│   │   └── dev_drawer.dart       # Menú hamburguesa con herramientas Dev (kDebugMode)
 │   ├── theme/
 │   │   ├── app_theme.dart        # ThemeData + re-exporta AppColors
 │   │   └── app_colors.dart       # Paleta Vibrant Sunset
@@ -62,8 +66,9 @@ combisv3/
 | # | Etiqueta | Página | Estado |
 |---|----------|--------|--------|
 | 0 | Inicio | `home_page.dart` | ✅ Tarjeta de mapa + cuadrícula de rutas |
-| 1 | Rutas | `routes_page.dart` | ✅ Lista estática |
+| 1 | Rutas | `routes_page.dart` | ✅ Lista + Búsqueda |
 | 2 | Perfil | `profile_page.dart` | 🔜 Placeholder |
+| 3 | Paradas | `paradas_page.dart` | 🔜 Placeholder |
 
 ---
 
@@ -98,6 +103,7 @@ dependencies:
   flutter_map: ^6.1.0
   latlong2: ^0.9.1
   google_fonts: ^6.2.1
-  # sqflite: ^2.4.2        # Fase 3b
-  # path: ^1.9.0           # Fase 3b
+  sqflite: ^2.4.1
+  sqflite_common_ffi: ^2.3.6
+  path: ^1.9.1
 ```
