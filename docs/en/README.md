@@ -13,6 +13,16 @@
 - **sqflite** — SQLite persistence *(disabled, Phase 3b)*
 
 ---
+💬 Philosophy
+
+"Make it simple, make it work, make it beautiful—in that order."
+
+Refactor follows that philosophy:
+
+Simple - Tables with test data, clear models, straightforward logic
+Work - Every component has a clear job and does it well
+Beautiful - Professional UI with grid-based visualization
+
 
 ## Current State — Phase 3
 

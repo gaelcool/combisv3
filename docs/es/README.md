@@ -14,6 +14,18 @@
 
 ---
 
+Filosofia de refacción.
+
+"Hazlo simple, haz que funcione, hazlo hermoso- en ese orden."
+
+Es buena practica:
+
+Simple - Tablas con datos, modelos claros, logica sensible
+Work - Cada componente tiene un gol especifico y lo haze bien.
+Beautiful - UI professional con visualizacion de cada elemento clara.
+
+
+
 ## Estado Actual — Fase 3
 
 La app funciona **sin base de datos**. Los datos de rutas están estáticos en `data/route_data.dart` (archivo temporal — no para compilaciones de producción/compartidas). El mapa renderiza tiles OSM en vivo dentro de una tarjeta en la página principal con capas de polilíneas + marcadores de parada.
