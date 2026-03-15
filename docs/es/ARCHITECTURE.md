@@ -8,7 +8,7 @@ Este documento deberia de forma concisa explicar lo qué hace cada archivo, de q
 
 ## Contexto del Proyecto
 
-Combis App es una guía de tránsito móvil para rutas de combis en aunque todavia no hemos discutido el rango que tendra nuestra app, este demo incluye un prototipo para Chiautempan. El objetivo es mostrar a los usuarios las rutas disponibles, permitirles explorar el mapa y eventualmente mostrar posiciones de combis en vivo o casi en tiempo real. La app tiene como plataforma principal Android, usando Linux de escritorio durante el desarrollo para iteración más rápida (sin necesidad de emulador). La verdad correrla es lo mismo en windows, donde abres el projecto en visual, y con que tengas flutter en tu path podras hacer:
+Combis App es una guía de tránsito móvil para rutas de combis y aunque todavia no hemos discutido el rango que tendra nuestra app, este demo incluye un prototipo para Chiautempan. El objetivo es mostrar a los usuarios las rutas disponibles, permitirles explorar el mapa y eventualmente mostrar posiciones de combis en vivo o casi en tiempo real. La app tiene como plataforma principal Android, usando Linux de escritorio durante el desarrollo para iteración más rápida (sin necesidad de emulador). La verdad correrla es lo mismo en windows, donde abres el projecto en visual, y con que tengas flutter en tu path podras hacer:
 
 ```bash 
 flutter pub get 

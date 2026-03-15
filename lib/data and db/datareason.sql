@@ -168,7 +168,7 @@ VALUES
   (3, 'Clínica Sur', 19.3040, -98.1870, 2),
   (3, 'Biblioteca Pública', 19.3030, -98.1880, 3),
   (3, 'Universidad Autónoma', 19.3020, -98.1890, 4);
-
+-- no seria chido si se pudiera dibujar la ruta encima del mapa en tiempo real? y que tipo haga una parada automatica 
 -- Resultado (tabla paradas):
 -- id | route_id | name                      | latitude | longitude  | order_in_route
 -- 1  | 1        | Santa Ana (Inicio)        | 19.3050  | -98.1900   | 1

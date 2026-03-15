@@ -5,7 +5,8 @@ import 'app_colors.dart';
 // Re-exportar para que cualquier archivo que importe app_theme.dart obtenga AppColors gratis.
 // Uso en páginas: import '../theme/app_theme.dart'; → AppColors.primary, etc.
 export 'app_colors.dart';
-
+// The following apptheme class can be passed over for anything so long as you
+// SImplify the build context in main so it just returns the following theme.
 class AppTheme {
   AppTheme._(); // no instanciable
 
